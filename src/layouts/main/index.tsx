@@ -1,10 +1,12 @@
 import { Container, Stack } from "@mui/material";
 import { Navigate, Outlet } from "react-router-dom";
 import Logo from "../../assets/Images/logo.png";
+import { useSelector } from "../../store";
+import { authState } from "../../store/slices/authSlice";
 
-const isAuthenticated = true;
 function MainLayout() {
-  if (isAuthenticated) {
+  const { isLoggedIn } = useSelector(authState());
+  if (isLoggedIn) {
     return <Navigate to="/app" replace />;
   }
   return (

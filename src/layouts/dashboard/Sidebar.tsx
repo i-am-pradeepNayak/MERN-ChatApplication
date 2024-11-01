@@ -16,10 +16,13 @@ import { navButtons, profileMenu } from "../../data";
 import useSettings from "../../hooks/useSettings";
 import Logo from "../../assets/Images/logo.png";
 import { AntSwitch } from "../../components/MuiCustomComp";
+import { useDispatch } from "../../store";
+import { handleLogout } from "../../store/slices/authSlice";
 
 // AccountSetting Component: For handling profile menu
 function AccountSetting() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -29,6 +32,9 @@ function AccountSetting() {
 
   const handleClose = (path?: string) => {
     setAnchorEl(null);
+    if (path === "/logout") {
+      dispatch(handleLogout());
+    }
     if (path) {
       navigate(path);
     }

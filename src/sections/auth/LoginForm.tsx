@@ -13,9 +13,13 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link as RouterLink } from "react-router-dom";
 import { FormProvider, RHFtextField } from "../../components/Hook-form";
+import { useDispatch } from "../../store";
+import { LoginUser } from "../../store/slices/authSlice";
+import { openSnackBar } from "../../store/slices/appSlice";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
 
   const loginSchema = yup.object({
     email: yup
@@ -37,12 +41,16 @@ const LoginForm = () => {
   const { reset, setError, handleSubmit, formState, clearErrors } = methods;
   const { isSubmitting, isSubmitted, errors } = formState;
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     try {
-      throw new Error("ApiError");
+      const loginResp = await dispatch(LoginUser(data)).unwrap();
+      dispatch(
+        openSnackBar({ message: loginResp.message, severity: "success" }),
+      );
     } catch (err) {
       reset();
       setError("afterSubmit", { type: "Error", message: err.message });
+      dispatch(openSnackBar({ message: err.message, severity: "error" }));
     }
   };
 
@@ -53,9 +61,9 @@ const LoginForm = () => {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        {errors.afterSubmit && (
+        {/* {errors.afterSubmit && (
           <Alert severity="warning">{errors.afterSubmit.message}</Alert>
-        )}
+        )} */}
         <RHFtextField
           name="email"
           label="Email address"

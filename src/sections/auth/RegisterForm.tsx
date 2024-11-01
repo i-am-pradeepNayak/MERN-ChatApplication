@@ -4,11 +4,15 @@ import { Eye, EyeSlash } from "phosphor-react";
 import { useState } from "react";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import { FormProvider, RHFtextField } from "../../components/Hook-form";
+import { useDispatch } from "../../store";
+import { register } from "../../store/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const registerSchema = Yup.object({
     firstName: Yup.string().required("first name is required"),
@@ -33,13 +37,14 @@ const RegisterForm = () => {
 
   const { handleSubmit, reset } = methods;
 
-  const handleFormData = (data) => {
+  const handleFormData = async (data) => {
     try {
-      console.log(data);
+      await dispatch(register(data)).unwrap();
+      navigate("/auth/verifyOTP");
     } catch (err) {
       console.log(err);
     } finally {
-      reset();
+      // reset();
     }
   };
   return (

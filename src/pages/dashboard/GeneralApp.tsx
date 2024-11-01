@@ -4,16 +4,14 @@ import Conversation from "../../components/Conversation";
 import Chats from "./Chats";
 import Contact from "../../components/Conatct";
 import { useSelector } from "../../store";
-import { appState } from "../../store/slices/appSlice";
+import { sideBarState } from "../../store/slices/appSlice";
 import SharedMessage from "../../components/SharedMessage";
 import StarredMessage from "../../components/StarredMessage";
 
 function GeneralApp() {
   const theme = useTheme();
-  const app = useSelector(appState());
-  const width = app.sidebar.isopen
-    ? `calc(100vw - 740px)`
-    : `calc(100vw - 420px)`;
+  const sideBar = useSelector(sideBarState());
+  const width = sideBar.isopen ? `calc(100vw - 740px)` : `calc(100vw - 420px)`;
 
   return (
     <Stack direction="row" sx={{ height: "100%" }}>
@@ -29,9 +27,9 @@ function GeneralApp() {
       >
         <Conversation />
       </Box>
-      {app.sidebar.isopen &&
+      {sideBar.isopen &&
         (() => {
-          switch (app.sidebar.type) {
+          switch (sideBar.type) {
             case "CONTACT":
               return <Contact />;
 

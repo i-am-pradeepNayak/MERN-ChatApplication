@@ -7,6 +7,11 @@ const initialState = {
     isopen: false,
     type: "CONTACT",
   },
+  snackbar: {
+    open: false,
+    message: null,
+    severity: null,
+  },
 };
 
 export const appPersistConfig = {
@@ -25,10 +30,22 @@ const appSlice = createSlice({
     updateSideBarType(state, action) {
       state.sidebar.type = action.payload.type;
     },
+    openSnackBar(state, action) {
+      state.snackbar.open = true;
+      state.snackbar.message = action.payload.message;
+      state.snackbar.severity = action.payload.severity;
+    },
+    closeSnackBar(state) {
+      state.snackbar.open = false;
+      state.snackbar.message = null;
+      state.snackbar.severity = null;
+    },
   },
 });
 
-export const appState = () => (state) => state.app;
+export const sideBarState = () => (state) => state.app.sidebar;
+export const snackBarState = () => (state) => state.app.snackbar;
 
 export default appSlice.reducer;
-export const { toggleSideBar, updateSideBarType } = appSlice.actions;
+export const { toggleSideBar, updateSideBarType, openSnackBar, closeSnackBar } =
+  appSlice.actions;

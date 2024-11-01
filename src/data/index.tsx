@@ -229,6 +229,7 @@ const profileMenu = [
     icon: <Gear />,
   },
   {
+    path: "/logout",
     title: "Logout",
     icon: <SignOut />,
   },

@@ -5,11 +5,13 @@ import {
 } from "react-redux";
 import { persistReducer, persistStore } from "redux-persist";
 import appReducer, { appPersistConfig } from "./slices/appSlice";
+import authReducer from "./slices/authSlice";
 
 const persistedAppreducer = persistReducer(appPersistConfig, appReducer);
 
 const rootReducer = combineReducers({
   app: persistedAppreducer,
+  auth: authReducer,
 });
 
 // store configuration

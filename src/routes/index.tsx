@@ -8,6 +8,7 @@ import LoadingScreen from "../components/LoadingScreen";
 import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
+import VerifyOtp from "../pages/auth/VerifyOtp";
 
 /* eslint-disable react/jsx-props-no-spreading */
 const Loadable = (Component: any) => {
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { path: "register", element: <Register /> },
       { path: "forgotPassword", element: <ForgotPassword /> },
       { path: "resetPassword", element: <ResetPassword /> },
+      { path: "verifyOTP", element: <VerifyOtp /> },
     ],
   },
   {

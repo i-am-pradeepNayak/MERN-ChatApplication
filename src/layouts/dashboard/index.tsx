@@ -1,11 +1,12 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { Stack } from "@mui/material";
 import Sidebar from "./Sidebar";
-
-const isAuthenticated = true;
+import { useSelector } from "../../store";
+import { authState } from "../../store/slices/authSlice";
 
 const DashboardLayout = () => {
-  if (!isAuthenticated) {
+  const { isLoggedIn } = useSelector(authState());
+  if (!isLoggedIn) {
     return <Navigate to="/auth/login" replace />;
   }
 

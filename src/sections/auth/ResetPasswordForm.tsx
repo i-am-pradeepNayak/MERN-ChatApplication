@@ -1,13 +1,19 @@
 import { useState } from "react";
-import { IconButton, InputAdornment, Link, Stack, Button } from "@mui/material";
+import { IconButton, InputAdornment, Stack, Button } from "@mui/material";
 import { Eye, EyeSlash } from "phosphor-react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import { useSearchParams } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormProvider, RHFtextField } from "../../components/Hook-form";
+import { resetPassword } from "../../store/slices/authSlice";
+import { useDispatch } from "../../store";
 
 const ResetPasswordForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [searchParams] = useSearchParams();
+  const passwordResetToken = searchParams.get("token");
+  const dispatch = useDispatch();
 
   const resetPasswordSchema = yup.object({
     password: yup
@@ -32,9 +38,9 @@ const ResetPasswordForm = () => {
   const { reset, setError, handleSubmit, formState } = methods;
   const { isSubmitting, isSubmitted, errors } = formState;
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     try {
-      console.log("formData", data);
+      await dispatch(resetPassword({ ...data, passwordResetToken }));
     } catch (err) {
       setError("afterSubmit", { message: err.message });
     } finally {
